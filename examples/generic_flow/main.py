@@ -262,7 +262,7 @@ base.flow = Flow(
         ingame_menu=IngameMenu(),
     ),
     # initial_stage='splashes',
-    initial_stage='main_menu',
+    initial_stage='splashes',
 )
 ## Alternative to the above:
 #base.flow = Flow()

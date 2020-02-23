@@ -2,7 +2,7 @@ class Stage:
     def enter(self, data):
         raise Exception
 
-    def exit(self):
+    def exit(self, data):
         raise Exception
 
     def exit_to_substage(self, data):
@@ -82,7 +82,8 @@ class Flow:
             raise Exception("No active substage.")
 
         # Exit current substage
-        stage = self.substages[self.get_current_substage()]
+        leaving_substage = self.get_current_substage()
+        stage = self.substages[leaving_substage]
         data = stage.exit(data)
         self.active_substages = self.active_substages[:-1]
 
@@ -91,4 +92,4 @@ class Flow:
             stage = self.stages[self.get_current_stage()]
         else:
             stage = self.substages[self.get_current_substage()]
-        stage.reenter_from_substage(data)
+        stage.reenter_from_substage(leaving_substage, data)

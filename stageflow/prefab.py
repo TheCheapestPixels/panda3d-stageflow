@@ -31,8 +31,8 @@ class Cutscene(Stage):
         base.accept('escape', self.trigger_exit)
         self.exit_task = base.task_mgr.add(self.check_end_of_credits, "check end of credits")
 
-    def exit(self):
-        pass
+    def exit(self, data):
+        return data
 
     def trigger_exit(self):
         self.player_exit = True
@@ -43,7 +43,7 @@ class Cutscene(Stage):
             self.credits = None
             self.destroy_credits()
             base.flow.transition(self.exit_stage, self.data)
-            return task.stop
+            return task.done
         return task.cont
 
     def setup_credits(self, data):

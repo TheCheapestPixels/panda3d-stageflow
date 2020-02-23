@@ -118,7 +118,7 @@ def test_pushing_substage():
         def exit_to_substage(self, substage, data):
             global exit_data
             exit_data = 'stage'
-        def reenter_from_substage(self, data):
+        def reenter_from_substage(self, substage, data):
             global entry_data
             entry_data = 'stage'
 
@@ -132,7 +132,7 @@ def test_pushing_substage():
         def exit_to_substage(self, data):
             global exit_data
             exit_data = 'substage'
-        def reenter_from_substage(self, data):
+        def reenter_from_substage(self, substage, data):
             global entry_data
             entry_data = 'substage'
 

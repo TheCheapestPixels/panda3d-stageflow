@@ -29,7 +29,7 @@ class Cutscene(Stage):
         self.credits = self.setup_credits(data)
         self.credits.start()
         base.accept('escape', self.trigger_exit)
-        self.exit_task = base.task_mgr.add(self.check_end_of_credits, "check end of credits")
+        self.exit_task = base.task_mgr.add(self.check_end_of_credits, "check end of credits", sort=25)
 
     def exit(self, data):
         return data

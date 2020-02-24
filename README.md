@@ -33,3 +33,4 @@ TODO
 * Docstrings
 * CLI args for initial stage and data
 * Package
+* abstract Stages out of examples

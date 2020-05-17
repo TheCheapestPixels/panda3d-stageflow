@@ -5,10 +5,10 @@ class Stage:
     def exit(self, data):
         raise Exception
 
-    def exit_to_substage(self, data):
+    def exit_to_substage(self, substage, data):
         raise Exception
 
-    def reenter_from_substage(self, data):
+    def reenter_from_substage(self, substage, data):
         raise Exception
 
 
@@ -56,7 +56,7 @@ class Flow:
         if self.current_stage is not None:
             final_data = self.stages[self.current_stage].exit(data)
         else:
-            final_data = None
+            final_data = data
         self.current_stage = stage_name
         self.stages[stage_name].enter(final_data)
 

@@ -261,7 +261,6 @@ base.flow = Flow(
         are_you_sure=AreYouSure(),
         ingame_menu=IngameMenu(),
     ),
-    # initial_stage='splashes',
     initial_stage='splashes',
 )
 ## Alternative to the above:

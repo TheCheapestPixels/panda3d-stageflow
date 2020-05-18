@@ -6,9 +6,9 @@ from .prefab import Quit
 
 
 __all__ = [
-    Flow,
-    Stage,
-    Substage,
-    Cutscene,
-    Quit,
+    'Flow',
+    'Stage',
+    'Substage',
+    'Cutscene',
+    'Quit',
 ]

@@ -1,7 +1,7 @@
 TODO List
 =========
 
--  API docs
+-  API docs outside the core
 -  Tests for misusing the API
 -  Re-type Exceptions
 -  CLI args for initial stage and data, overriding setup in code

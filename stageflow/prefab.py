@@ -12,6 +12,7 @@ class Cutscene(Stage):
     to it.
 
     Subclasses of Cutscene need to implement:
+
     * setup_credits(data): Set up the scene. Return an Interval.
     * destroy_credits(): Tear down the scene again. The Interval will be
       dealt with automatically.

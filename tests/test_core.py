@@ -1,6 +1,5 @@
 from stageflow import Flow
 from stageflow import Stage
-from stageflow import Substage
 
 
 def test_create_stage():
@@ -122,7 +121,7 @@ def test_pushing_substage():
             global entry_data
             entry_data = 'stage'
 
-    class TestSubstage(Substage):
+    class TestSubstage(Stage):
         def enter(self, data):
             global entry_data
             entry_data = 'substage'

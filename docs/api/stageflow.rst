@@ -10,6 +10,6 @@ stageflow package
 .. toctree::
 
    stageflow.core
-   stageflow.panda3d
    stageflow.prefab
+   stageflow.panda3d
    stageflow.wecs

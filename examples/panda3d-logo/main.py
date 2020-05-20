@@ -5,7 +5,7 @@ from direct.gui.DirectGui import DGG
 
 from stageflow import Flow
 from stageflow import Stage
-from stageflow import Quit
+from stageflow.prefab import Quit
 from stageflow.panda3d import Panda3DSplash
 
 

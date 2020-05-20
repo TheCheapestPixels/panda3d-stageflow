@@ -3,12 +3,13 @@ Out-of-the-box stages
 
 -  ``prefab``
 
-   -  ``Cutscene``: Plays a Panda3D ``Interval``
    -  ``Quit``: ``Quit.enter`` calls ``sys.exit()``
 
 -  ``panda3d``
 
-   -  ``Panda3DSplash``: A ``Cutscene`` advertising Panda3D
+   -  ``Cutscene``: Plays a Panda3D ``Interval``
+   -  ``Panda3DSplash``: A ``Cutscene`` advertising Panda3D; requires
+      the ``panda3d-logos`` package
 
 -  ``wecs`` \*\ ``WECSStage``: (FIXME: not ready) Set up / tear down a
    WECS world

@@ -5,8 +5,8 @@ from direct.gui.DirectGui import DGG
 
 from stageflow import Flow
 from stageflow import Stage
-from stageflow import Cutscene
-from stageflow import Quit
+from stageflow.panda3d import Cutscene
+from stageflow.prefab import Quit
 
 
 ShowBase()

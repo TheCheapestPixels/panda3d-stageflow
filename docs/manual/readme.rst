@@ -48,7 +48,8 @@ Installation, etc.
 
 Installation: ``pip install panda3d-stageflow``
 
-Documentation: Not yet on readthedocs :( FIXME
+Documentation:
+`readthedocs.io <https://panda3d-stageflow.readthedocs.io/>`__
 
 Source and issue tracker:
 `GitHub <https://github.com/TheCheapestPixels/panda3d-stageflow>`__

@@ -1,20 +1,76 @@
-import sys
-from importlib import resources
+from stageflow import Stage
 
-#import simplepbr
-from direct.showbase.ShowBase import ShowBase
-from direct.actor.Actor import Actor
-from direct.interval.IntervalGlobal import Sequence
-from direct.interval.IntervalGlobal import Parallel
-from direct.interval.IntervalGlobal import LerpPosHprInterval
-from direct.interval.IntervalGlobal import LerpFunc
-from direct.interval.IntervalGlobal import SoundInterval
-from panda3d.core import loadPrcFileData
-from panda3d.core import AntialiasAttrib
-from panda3d.core import Shader
-from panda3d.core import Vec3
 
-from stageflow import Cutscene
+class Cutscene(Stage):
+    """
+    The Cutscene stage acts like a movie player, and can be used for
+    splash screens and cinematics. It will play a Panda3D `Interval`
+    until it has ended, or the player indicates that it should be ended
+    by pressing ``escape``. It then transitions to the next stage,
+    passing on the data that was passed to :class:`Cutscene.enter`.
+
+    Subclasses of Cutscene need to implement:
+
+    * :class:`Cutscene.setup_credits`
+    * :class:`Cutscene.destroy_credits`
+
+    exit_stage
+        The stage to exit to; By default ``main menu``. The data passed
+        to that stage will be the same that was passed to the cutscene.
+    """
+
+    def __init__(self, exit_stage='main menu'):
+        self.exit_stage = exit_stage
+
+    def enter(self, data):
+        """"""
+        self.data = data
+        self.player_exit = False
+        self.credits = self.setup_credits(data)
+        self.credits.start()
+        base.accept('escape', self._trigger_exit)
+        self.exit_task = base.task_mgr.add(
+            self._check_end_of_credits,
+            "check end of credits",
+            sort=25,
+        )
+
+    def exit(self, data):
+        """
+        """
+        return data
+
+    def _trigger_exit(self):
+        self.player_exit = True
+
+    def _check_end_of_credits(self, task):
+        if self.player_exit or self.credits.isStopped():
+            self.credits.finish()
+            self.credits = None
+            self.destroy_credits()
+            base.flow.transition(self.exit_stage, self.data)
+            return task.done
+        return task.cont
+
+    def setup_credits(self, data):
+        """
+        Override this to set up the cutscene.
+
+        data
+            The data that was passed to :class:`Stage.enter`
+
+        :returns:
+            The Panda3D `Interval` that will be played.
+        """
+
+        raise NotImplemented
+
+    def destroy_credits(self):
+        """
+        Tear down the cutscene again. The `Interval` will be dealt with
+        automatically.
+        """
+        raise NotImplemented
 
 
 class Panda3DSplash(Cutscene):
@@ -22,79 +78,15 @@ class Panda3DSplash(Cutscene):
     A generic splash screen advertising Panda3D.
     """
     
-    def __init__(self, exit_stage='main menu'):
-        super().__init__(self, exit_stage='main menu')
-        # FIXME: Async loading here
-
     def setup_credits(self, data):
         """"""
-        base.win.set_clear_color((0,0,0,1))
-        #simplepbr.init()
-        cam_dist = 2
-        base.cam.set_pos(0, -2.2 * cam_dist, 0)
-        base.cam.node().get_lens().set_fov(45/cam_dist)
+        # Imported here so that you can import other stages from this
+        # module without having panda3d-logos installed.
+        from panda3d_logos.splashes import RainbowSplash
 
-        # Load and prepare content
-        #path = resources.path('stageflow', 'panda3d_logo/panda3d_logo.bam')
-        #print(path)
-        #with path as p:
-        #    self.logo_animation = Actor(p)  # Centered around 0, 6.3, 0
-        self.logo_animation = Actor("panda3d_logo/panda3d_logo.bam")
-        self.logo_animation.reparent_to(render)
-        self.logo_animation.set_two_sided(True)
-
-        shader = Shader.load(
-            Shader.SL_GLSL,
-            vertex="panda3d_logo/panda3d_logo.vert",
-            fragment="panda3d_logo/panda3d_logo.frag",
-        )
-        self.logo_animation.set_shader(shader)
-        self.logo_animation.set_shader_input("fade", 0.0)
-        self.logo_sound = base.loader.loadSfx("panda3d_logo/panda3d_logo.wav")
-
-        def null_func(t):
-            pass
-        def shader_time(t):
-            self.logo_animation.set_shader_input("time", t)
-        def add_antialiasing(t):
-            render.set_antialias(AntialiasAttrib.MMultisample)
-        def fade_background_to_white(t):
-            base.win.set_clear_color((t,t,t,1))
-            self.logo_animation.set_shader_input("time", t/3.878)
-            self.logo_animation.set_shader_input("fade", t)
-        effects = Parallel(
-            self.logo_animation.actorInterval(
-                "splash",
-                loop=False,
-            ),
-            SoundInterval(
-                self.logo_sound,
-                loop=False,
-            ),
-            Sequence(
-                LerpFunc(
-                    shader_time,
-                    fromData=0,
-                    toData=1,
-                    duration=3.878,
-                ),
-                LerpFunc(
-                    add_antialiasing,
-                    fromData=0,
-                    toData=1,
-                    duration=0,
-                ),
-                LerpFunc(
-                    fade_background_to_white,
-                    fromData=0,
-                    toData=1,
-                    duration=1.0,
-                ),
-            ),
-        )
-        return effects
+        self.splash = RainbowSplash()
+        return self.splash.setup()
 
     def destroy_credits(self):
         """"""
-        self.logo_animation.cleanup()
-        # FIXME: Destroy self.logo_sound
+        self.splash.teardown()

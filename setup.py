@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='panda3d-stageflow',
-    version='0.1b1',
+    version='0.1b2',
     description='A kind of FSM for game states',
     long_description=long_description,
     long_description_content_type="text/markdown",

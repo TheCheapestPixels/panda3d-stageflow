@@ -19,7 +19,7 @@ class Cutscene(Stage):
         to that stage will be the same that was passed to the cutscene.
     """
 
-    def __init__(self, exit_stage='main menu'):
+    def __init__(self, exit_stage='main menu', splash_args=None):
         self.exit_stage = exit_stage
 
     def enter(self, data):
@@ -77,14 +77,19 @@ class Panda3DSplash(Cutscene):
     """
     A generic splash screen advertising Panda3D.
     """
-    
+    def __init__(self, *args, splash_args=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if splash_args is None:
+            splash_args = {}
+        self.splash_args = splash_args
+
     def setup_credits(self, data):
         """"""
         # Imported here so that you can import other stages from this
         # module without having panda3d-logos installed.
         from panda3d_logos.splashes import RainbowSplash
 
-        self.splash = RainbowSplash()
+        self.splash = RainbowSplash(**self.splash_args)
         return self.splash.setup()
 
     def destroy_credits(self):

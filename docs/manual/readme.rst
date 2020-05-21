@@ -19,9 +19,10 @@ For example: # FIXME: Abstract Panda3DSplash out of the example…
 .. code:: python
 
    from direct.showbase.ShowBase import ShowBase
+
    from stageflow import Flow
    from stageflow.panda3d import Panda3DSplash
-   from stageflow import Quit
+   from stageflow.prefab import Quit
 
 
    ShowBase()
